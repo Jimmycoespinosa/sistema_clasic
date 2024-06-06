@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>CRUD MySQL Django</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    </head>
+
+    <body>
+        <header class="text-center" style="margin-top:50px;">
+            <h1>CRUD SIN ORM MYSQL</h1>
+        </header>
+        <main class="container">
+            <div class="card-header" style="padding:20px;">
+                <div class="input-group d-flex justify-content-center">
+                    <a class="btn btn-success" href="{% url 'crear_pais' %}" role="button" style="margin-right:5px;width:140px;">
+                        Agregar País 
+                    </a>
+                    <a class="btn btn-dark" href="{% url 'crear_estado' %}" role="button" style="width:140px;">
+                        Agregar Estado
+                    </a>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table" style="padding:0;margin:0;border:0;">
+                    <thead>
+                        <h4 style="text-align:center;">Consulta con JOIN</h4>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nombre de País</th>
+                            <th scope="col">Nombre del Estado</th>
+                            <th style="text-align:center;" scope="col">Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for mdlMain in mdlMain %}
+                        <tr class="">
+                            <td style="vertical-align:middle;">{{mdlMain.0}}</td>
+                            <td style="vertical-align:middle;">{{mdlMain.1}}</td>
+                            <td style="vertical-align:middle;">{{mdlMain.2}}</td>
+                            <td class="text-center" style="vertical-align:middle;">
+                                <div class="d-flex justify-content-center">
+                                    <form name="FormEditRegs{{mdlMain.0}}" enctype="multipart/form-data" method="post" action="{% url 'cargar_estado' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="EditState" value="1">
+                                        <input type="hidden" name="idCountry" value="{{mdlMain.0}}">
+                                        <input type="hidden" name="Cname" value="{{mdlMain.1}}">
+                                        <input type="hidden" name="Sname" value="{{mdlMain.2}}">
+                                        <input type="submit" name="" id="" class="btn btn-primary" role="button" value="Editar" style="margin-right:5px;" />
+                                    </form>
+                                    <form name="FormDeleteRegs{{mdlMain.0}}" enctype="multipart/form-data" method="post" action="{% url 'cargar_estado' %}">
+                                        {% csrf_token %}
+                                        <input type="hidden" name="DeleteState" value="1">
+                                        <input type="hidden" name="idCountry" value="{{mdlMain.0}}">
+                                        <input type="hidden" name="Cname" value="{{mdlMain.1}}">
+                                        <input type="hidden" name="Sname" value="{{mdlMain.2}}">
+                                        <input type="submit" name="" id="" class="btn btn-danger" role="button" value="Borrar" />
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12 help-text" style="margin-top:10px;">
+                <td>
+                    <span style="color:red;">
+                        {% if messages %}
+                            <ul class="messages">
+                                {% for message in messages %}
+                                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </span>
+                </td>
+            </div>
+        </main>
+        <footer>           
+        </footer>
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"
+        ></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>

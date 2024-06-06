@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <title>Editar Estado</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+
+        <!-- Bootstrap CSS v5.2.1 -->
+        <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous"
+        />
+        <style>
+            body{
+                margin: 0;
+            }
+            .main{
+                width: 100%;
+                height: 100vh;
+            }
+            .container{
+                height: 70%;
+                display: grid;
+                align-items: center;
+                justify-items: center;
+            }
+            .container form{
+                margin-top: 5%;
+            }
+        </style>
+    </head>
+
+    <body>
+        <main class="container">
+            <form name="FormInsertCountry" enctype="multipart/form-data" method="post" action="{% url 'editar_estado' %}">
+                <input type="hidden" name="inConfirm" value="{{ inConfirm }}">
+                <input type="hidden" name="id" value="{{ idCountry }}">
+                <input type="hidden" name="EditState" value="{{ inEdit }}">
+                <input type="hidden" name="DeleteState" value="{{ inDel }}">
+                <input type="hidden" name="oldName" value="{{ Sname }}">
+                {% csrf_token %}
+                <div class="card">
+                    {% if inEdit %}
+                        <div class="card-header">Editar estado</div>
+                    {% elif inDel %}
+                    <div class="card-header">Eliminar estado</div>
+                    {% endif %}
+                    <div class="card-body">
+                        <h4 class="card-title text-center">Datos del Estado</h4>
+                        <div class="table-responsive">
+                            <div class="mb-3">
+                                <label for="" class="form-label"><span style="color:red;">*</span> Nombre del Estado</label>
+                                <input type="text" class="form-control" name="Sname" id="Sname" aria-describedby="helpId" placeholder="" value="{{ Sname }}" {% if inDel %}readonly{% else %}required{% endif %}/>
+                                <br/>
+                                <div class="mb-3">
+                                    <label for="" class="form-label"><span style="color:red;">*</span> País</label>
+                                    <select class="form-select form-select-lg" name="idCountry" id="idCountry">
+                                        <option {% if inDel %}disabled{% else %}selected{% endif %}>Seleccionar</option>
+                                        {% for country in select_country %}
+                                            <option value="{{country.0}}" {% if Cname == country.1 %}selected{% elif inDel %}disabled{% endif %}>
+                                                {{country.0}}. {{country.1}}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div style="text-align:right;">
+                                    <input type="submit" name="" id="" class="btn btn-primary" href="#" role="button" value="{% if inEdit %}Editar{% elif inDel %}Eliminar{% endif %} Registro" />
+                                    <a href="{% url 'inicio' %}" class="btn btn-danger pull-right" style="margin-right: 10px;">Regresar</a>
+                                </div>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+                <div class="col-12 help-text" style="margin-top:10px;">
+                    <td>
+                        <span style="color:red;">
+                            {% if messages %}
+                                <ul class="messages">
+                                    {% for message in messages %}
+                                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% elif inDel %}
+                                <p style="text-align:center;">Confirme la información a eliminar.</p>
+                            {% endif %}
+                        </span>
+                    </td>
+                </div>
+            </form>
+        </main>
+        <footer>
+        </footer>
+        <!-- Bootstrap JavaScript Libraries -->
+        <script
+            src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+            integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+            crossorigin="anonymous"
+        ></script>
+
+        <script
+            src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+            integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+            crossorigin="anonymous"
+        ></script>
+    </body>
+</html>
